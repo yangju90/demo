@@ -2,5 +2,5 @@ package resouces
 
 import "embed"
 
-//go:embed static
+//go:embed index.html css
 var StaticResouces embed.FS

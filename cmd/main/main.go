@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	staticResouces "demo/resources"
+	resource "demo/resource"
 
 	"github.com/gorilla/mux"
 )
@@ -17,9 +17,10 @@ import (
 // golang Http 服务仅能使用绝对路径
 func main() {
 	staticDir := http.FileServer(http.Dir("E:\\work\\go\\demo\\resource"))
+	embedFs := http.FileServer(http.FS(resource.StaticResouces))
 	router := mux.NewRouter()
 	router.PathPrefix("/static/").Handler(loggingMiddleware(staticDir))
-	router.HandleFunc("/", staticFunc)
+	router.PathPrefix("/").Handler(loggingMiddleware(embedFs))
 
 	var errChan chan (error)
 	var server http.Server
@@ -55,11 +56,4 @@ func loggingMiddleware(next http.Handler) http.Handler {
 		log.Printf("Received %s %s\n", r.Method, r.URL.Path)
 		next.ServeHTTP(w, r)
 	})
-}
-
-func staticFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.URL.Path)
-	path := r.URL.Path
-	data, _ := staticResouces.ReadFile(path)
-	log.Println(data)
 }

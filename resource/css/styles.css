@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #282c34;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+.welcome-container {
+  text-align: center;
+}
+.welcome-title {
+  font-size: 48px;
+  margin: 0;
+  animation: fadeInDown 2s ease-out;
+}
+.welcome-subtitle {
+  font-size: 24px;
+  margin: 10px 0 20px;
+  animation: fadeInDown 2s ease-out;
+  animation-delay: 0.5s;
+}
+.welcome-image {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: url('HelloWorld.jpg') no-repeat center center;
+  background-size: cover;
+  margin: 20px 0;
+  animation: rotate 20s linear infinite;
+}
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.welcome-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #282c34;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.welcome-button:hover {
+  background-color: #ddd;
+}
