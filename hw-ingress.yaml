@@ -1,0 +1,57 @@
+--- 
+# Issuer  
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: hw-cloud
+  namespace: demo
+spec:
+  selfSigned: {}
+
+--- 
+# Certificate  
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hw-cloud
+  namespace: demo
+spec:
+  secretName: hw-cloud
+  issuerRef:
+    name: hw-cloud
+    kind: Issuer
+  dnsNames:
+  - demo.cetc.com
+
+---   
+#Ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hw-cloud
+  namespace: demo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: hw-cloud
+    cert-manager.io/issuer-kind: Issuer
+#    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"   
+#    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: demo.cetc.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hw-cloud
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - demo.cetc.com
+    secretName: hw-cloud
+
+
